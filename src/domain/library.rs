@@ -1,6 +1,6 @@
-use std::fs;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
+use std::fs;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -8,7 +8,7 @@ pub struct Library {
     #[serde(rename = "Audiobooks")]
     pub audiobooks: Vec<Audiobook>,
     #[serde(skip_serializing, skip_deserializing)]
-    pub file: Option<String>
+    pub file: Option<String>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -66,14 +66,14 @@ impl Rating {
             3 => "3",
             4 => "4",
             5 => "5",
-            _ => "☠"
-        }
+            _ => "☠",
+        };
     }
 }
 
 pub fn parse_library_json(filename: String) -> Result<Library, String> {
     let raw = fs::read_to_string(filename.clone()).map_err(|e| e.to_string())?;
-    let mut library : Library = serde_json::from_str(&raw).map_err(|e| e.to_string())?;
+    let mut library: Library = serde_json::from_str(&raw).map_err(|e| e.to_string())?;
     library.file = Some(filename);
     Ok(library)
 }
@@ -81,7 +81,10 @@ pub fn parse_library_json(filename: String) -> Result<Library, String> {
 pub fn create_dummy() -> Library {
     let book1 = Audiobook {
         id: 1,
-        source: Source { single_file: None, multi_file: vec![] },
+        source: Source {
+            single_file: None,
+            multi_file: vec![],
+        },
         artist: "Artisticus".to_string(),
         album: "Albumicus".to_string(),
         title: Some("Titellicus".to_string()),
@@ -91,12 +94,15 @@ pub fn create_dummy() -> Library {
         state: "Finished".to_string(),
         rating: Some(Rating { rating: 2 }),
         album_artist: None,
-        comment: None
+        comment: None,
     };
 
     let book2 = Audiobook {
         id: 2,
-        source: Source { single_file: None, multi_file: vec![] },
+        source: Source {
+            single_file: None,
+            multi_file: vec![],
+        },
         artist: "Artisticus".to_string(),
         album: "Albumicus 2".to_string(),
         title: Some("Titellicus 2".to_string()),
@@ -106,11 +112,11 @@ pub fn create_dummy() -> Library {
         state: "Finished".to_string(),
         rating: Some(Rating { rating: 4 }),
         album_artist: None,
-        comment: None
+        comment: None,
     };
 
     Library {
         audiobooks: vec![book1, book2],
-        file: None
+        file: None,
     }
 }
