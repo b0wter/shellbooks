@@ -68,7 +68,7 @@ impl<'a> App<'a> {
     for component in self.components.iter_mut() {
       //component.init(tui.size()?)?;
       component.init(Rect::new(0, counter * 10, tui.size().unwrap().width, 9))?;
-      counter = counter + 1;
+      counter += 1;
     }
 
     loop {
@@ -124,7 +124,7 @@ impl<'a> App<'a> {
               for component in self.components.iter_mut() {
                 let area = Rect::new(0, counter * 10, f.size().width, 9);
                 let r = component.draw(f, area); //f.size());
-                counter = counter + 1;
+                counter += 1;
                 if let Err(e) = r {
                   action_tx.send(Action::Error(format!("Failed to draw: {:?}", e))).unwrap();
                 }

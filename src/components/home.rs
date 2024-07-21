@@ -39,6 +39,8 @@ impl Component<'_> for Home {
     match action {
       Action::Tick => {
       },
+      Action::Suspend => {
+      },
       _ => {},
     }
     Ok(None)

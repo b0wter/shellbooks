@@ -91,6 +91,6 @@ impl Component<'_> for FpsCounter<'_> {
   }
 
   fn name(&mut self) -> &str {
-    return "FpsCounter";
+    "FpsCounter"
   }
 }

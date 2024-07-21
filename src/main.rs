@@ -39,7 +39,7 @@ fn init_library_from_arg(filename: String) -> Option<Library> {
   let temp = library::parse_library_json(filename);
   match temp {
     Ok(lib) => {
-      return Some(lib);
+      Some(lib)
     }
     Err(error) => {
       panic!("The given library file could not be parsed, because: {}", error);
