@@ -68,7 +68,12 @@ impl<'a> App<'a> {
 
         for (counter, component) in self.components.iter_mut().enumerate() {
             //component.init(tui.size()?)?;
-            component.init(Rect::new(0, (counter * 10) as u16, tui.size().unwrap().width, 9))?;
+            component.init(Rect::new(
+                0,
+                (counter * 10) as u16,
+                tui.size().unwrap().width,
+                9,
+            ))?;
         }
 
         loop {
