@@ -59,7 +59,7 @@ pub struct Rating {
 
 impl Rating {
     pub fn as_symbol(self: &Rating) -> &str {
-        return match self.rating {
+        match self.rating {
             0 => " ",
             1 => "1",
             2 => "2",
@@ -67,7 +67,7 @@ impl Rating {
             4 => "4",
             5 => "5",
             _ => "☠",
-        };
+        }
     }
 }
 

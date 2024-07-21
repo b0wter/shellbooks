@@ -66,11 +66,9 @@ impl<'a> App<'a> {
             component.register_config_handler(self.config.clone())?;
         }
 
-        let mut counter = 0;
-        for component in self.components.iter_mut() {
+        for (counter, component) in self.components.iter_mut().enumerate() {
             //component.init(tui.size()?)?;
-            component.init(Rect::new(0, counter * 10, tui.size().unwrap().width, 9))?;
-            counter += 1;
+            component.init(Rect::new(0, (counter * 10) as u16, tui.size().unwrap().width, 9))?;
         }
 
         loop {
@@ -122,11 +120,9 @@ impl<'a> App<'a> {
                     Action::Resize(w, h) => {
                         tui.resize(Rect::new(0, 0, w, h))?;
                         tui.draw(|f| {
-                            let mut counter = 0;
-                            for component in self.components.iter_mut() {
-                                let area = Rect::new(0, counter * 10, f.size().width, 9);
+                            for (counter, component) in self.components.iter_mut().enumerate() {
+                                let area = Rect::new(0, (counter * 10) as u16, f.size().width, 9);
                                 let r = component.draw(f, area); //f.size());
-                                counter += 1;
                                 if let Err(e) = r {
                                     action_tx
                                         .send(Action::Error(format!("Failed to draw: {:?}", e)))
@@ -137,11 +133,9 @@ impl<'a> App<'a> {
                     }
                     Action::Render => {
                         tui.draw(|f| {
-                            let mut counter = 0;
-                            for component in self.components.iter_mut() {
+                            for (counter, component) in self.components.iter_mut().enumerate() {
                                 let name = component.name();
-                                let area = Rect::new(0, counter * 10, f.size().width, 9);
-                                counter = counter + 1;
+                                let area = Rect::new(0, (counter * 10) as u16, f.size().width, 9);
                                 let r = component.draw(f, area);
                                 if let Err(e) = r {
                                     action_tx

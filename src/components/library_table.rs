@@ -112,6 +112,6 @@ impl Component<'_> for LibraryTable<'_> {
     }
 
     fn name(&mut self) -> &str {
-        return "library table";
+        "library table"
     }
 }

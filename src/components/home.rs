@@ -50,6 +50,6 @@ impl Component<'_> for Home {
     }
 
     fn name(&mut self) -> &str {
-        return "home";
+        "home"
     }
 }
