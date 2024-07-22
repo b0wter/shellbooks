@@ -3,6 +3,7 @@ use crate::components::Component;
 use crate::domain::library::{Library, Rating};
 use crate::tui::Frame;
 use color_eyre::eyre::Result;
+use crossterm::event::{KeyCode, KeyEvent};
 use ratatui::layout::{Alignment, Constraint, Rect};
 use ratatui::style::{Style, Stylize};
 use ratatui::symbols::border;
@@ -24,9 +25,35 @@ impl<'a> LibraryTable<'a> {
             library,
         }
     }
+
+    fn handle_navigation(audiobook_count: usize, table_state: &mut TableState, is_up: bool) {
+        if audiobook_count == 0 {
+            table_state.select(None);
+        } else {
+            let new_index = table_state.selected().map(|x| x as i32).unwrap_or(0) + if is_up { -1 } else { 1 };
+            let clamped_index =
+                if new_index < 0
+                    { ((audiobook_count as i32) + new_index) as usize }
+                else if new_index >= audiobook_count as i32
+                    { (new_index - (audiobook_count as i32)) as usize }
+                else
+                    { new_index as usize };
+            table_state.select(Some(clamped_index));
+        }
+    }
 }
 
 impl Component<'_> for LibraryTable<'_> {
+    fn handle_key_events(&mut self, key: KeyEvent) -> Result<Option<Action>> {
+        match key.code {
+            KeyCode::Down => Self::handle_navigation(self.library.audiobooks.len(), &mut self.table_state, false),
+            KeyCode::Up => Self::handle_navigation(self.library.audiobooks.len(), &mut self.table_state, true),
+            _ => ()
+        }
+
+        Ok(None)
+    }
+
     fn update(&mut self, action: Action) -> Result<Option<Action>> {
         Ok(None)
     }
